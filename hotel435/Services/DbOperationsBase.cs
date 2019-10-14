@@ -15,14 +15,14 @@ namespace hotel435.Services
             _dbContext = dbContext;
         }
 
-        public async Task<TEntity> InsertAsync(TEntity model)
+        public virtual async Task<TEntity> InsertAsync(TEntity model)
         {
             await _dbContext.AddAsync(model);
             await _dbContext.SaveChangesAsync();
             return model;
         }
 
-        public async Task<TEntity> GetByIdAsync(string id)
+        public virtual async Task<TEntity> GetByIdAsync(string id)
         {
             var resource = await _dbContext.FindAsync<TEntity>(id);
             return resource;
