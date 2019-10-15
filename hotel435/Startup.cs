@@ -31,6 +31,8 @@ namespace hotel435
             services.AddControllers();
             services.AddDbContext<Hotel435DbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Hotel435")));
             services.AddScoped<IManagerService, ManagerService>();
+            services.AddScoped<IReservationService, ReservationService>();
+            services.AddScoped<IRoomService, RoomService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
