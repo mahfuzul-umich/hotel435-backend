@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using hotel435.Models;
 using hotel435.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -33,6 +34,15 @@ namespace hotel435
             services.AddScoped<IManagerService, ManagerService>();
             services.AddScoped<IReservationService, ReservationService>();
             services.AddScoped<IRoomService, RoomService>();
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.Authority = "https://hotel435.auth0.com/";
+                options.Audience = "http://localhost:54957";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
