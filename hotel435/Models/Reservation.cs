@@ -20,5 +20,7 @@ namespace hotel435.Models
         public DateTime CheckIn { get; set; }
         [Required]
         public DateTime CheckOut { get; set; }
+        [Required]
+        public string RoomId { get; set; }
     }
 }
