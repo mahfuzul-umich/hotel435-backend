@@ -31,7 +31,9 @@ namespace hotel435
         {
             services.AddControllers();
             services.AddDbContext<Hotel435DbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Hotel435")));
-            services.AddSingleton<IManagerService, ManagerService>();
+            services.AddScoped<IManagerService, ManagerService>();
+            services.AddScoped<IReservationService, ReservationService>();
+            services.AddScoped<IRoomService, RoomService>();
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
