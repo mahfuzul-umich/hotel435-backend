@@ -6,8 +6,7 @@ namespace hotel435.Services
     {
         public RoomService(Hotel435DbContext dbContext) : base(dbContext)
         {
+
         }
-
-
     }
 }
