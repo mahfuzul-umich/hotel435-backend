@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using hotel435.Models;
 
 namespace hotel435.Migrations
 {
     [DbContext(typeof(Hotel435DbContext))]
-    partial class Hotel435DbContextModelSnapshot : ModelSnapshot
+    [Migration("20191103041238_AmazonMigration")]
+    partial class AmazonMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

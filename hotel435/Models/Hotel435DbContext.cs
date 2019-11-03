@@ -13,7 +13,6 @@ namespace hotel435.Models
             
         }
 
-        public DbSet<Manager> Managers { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<Room> Rooms { get; set; }
     }
