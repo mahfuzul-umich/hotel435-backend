@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using hotel435.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace hotel435.Services
 {
@@ -26,6 +27,19 @@ namespace hotel435.Services
         {
             var resource = await _dbContext.FindAsync<TEntity>(id);
             return resource;
+        }
+
+        public virtual async Task<List<TEntity>> GetAllAsync()
+        {
+            var resources = await _dbContext.Set<TEntity>().ToListAsync();
+            return resources;
+        }
+
+        public virtual async Task DeleteAsync(string id)
+        {
+            var resource = await GetByIdAsync(id);
+            _dbContext.Set<TEntity>().Remove(resource);
+            await _dbContext.SaveChangesAsync();
         }
     }
 }
