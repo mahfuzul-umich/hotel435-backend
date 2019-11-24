@@ -22,13 +22,13 @@ namespace hotel435.Controllers
 
         // GET: api/Rooms
         [HttpGet]
-        public async Task<List<Room>> Get()
+        public async Task<List<Room>> GetAllAsync()
         {
             return await _service.GetAllAsync();
         }
 
         // GET: api/Rooms/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}")]
         public async Task<Room> GetByIdAsync(string id)
         {
             return await _service.GetByIdAsync(id);

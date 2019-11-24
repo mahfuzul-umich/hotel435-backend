@@ -26,7 +26,7 @@ namespace hotel435.Controllers
             return await _service.GetAllAsync();
         }
 
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}")]
         public async Task<Reservation> GetByIdAsync(string id)
         {
             return await _service.GetByIdAsync(id);
@@ -38,7 +38,7 @@ namespace hotel435.Controllers
             return await _service.InsertAsync(model);
         }
 
-        [HttpDelete("{id}", Name = "Delete")]
+        [HttpDelete("{id}")]
         public async Task DeleteAsync(string id)
         {
             await _service.DeleteAsync(id);
