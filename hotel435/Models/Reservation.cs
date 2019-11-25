@@ -38,5 +38,7 @@ namespace hotel435.Models
         public string Zip { get; set; }
         [Required]
         public string State { get; set; }
+        public bool IsCheckedIn { get; set; }
+        public bool IsCheckedOut { get; set; }
     }
 }
