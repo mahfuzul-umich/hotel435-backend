@@ -35,6 +35,12 @@ namespace hotel435.Controllers
         [HttpPost]
         public async Task<Reservation> InsertAsync([FromBody] Reservation model)
         {
+            Guid guid = Guid.NewGuid();
+            string confirmationNumber = Convert.ToBase64String(guid.ToByteArray());
+            confirmationNumber = confirmationNumber.Replace("=", "")
+                                                   .Replace("+", "")
+                                                   .Replace("/", "");
+            model.ConfirmationNumber = confirmationNumber;
             return await _service.InsertAsync(model);
         }
 
