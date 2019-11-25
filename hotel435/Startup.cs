@@ -50,10 +50,7 @@ namespace hotel435
                     builder =>
                     {
                         builder
-                        .AllowAnyOrigin()
-                        .AllowAnyMethod()
-                        .AllowAnyHeader()
-                        .AllowCredentials();
+                        .AllowAnyOrigin();
                     });
             });
         }
