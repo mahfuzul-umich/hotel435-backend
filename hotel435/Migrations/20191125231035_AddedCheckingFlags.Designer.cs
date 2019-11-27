@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using hotel435.Models;
 
 namespace hotel435.Migrations
 {
     [DbContext(typeof(Hotel435DbContext))]
-    partial class Hotel435DbContextModelSnapshot : ModelSnapshot
+    [Migration("20191125231035_AddedCheckingFlags")]
+    partial class AddedCheckingFlags
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,14 +24,7 @@ namespace hotel435.Migrations
             modelBuilder.Entity("hotel435.Models.Reservation", b =>
                 {
                     b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime?>("ActualCheckIn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("ActualCheckOut")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -101,7 +96,6 @@ namespace hotel435.Migrations
             modelBuilder.Entity("hotel435.Models.Room", b =>
                 {
                     b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Beds")
