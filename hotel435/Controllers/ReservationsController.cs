@@ -26,15 +26,20 @@ namespace hotel435.Controllers
             return await _service.GetAllAsync();
         }
 
-        [HttpGet("{id}")]
-        public async Task<Reservation> GetByIdAsync(string id)
+        [HttpGet("{confirmationNumber}")]
+        public Reservation GetByConfirmationNumber(string confirmationNumber)
         {
-            return await _service.GetByIdAsync(id);
+            return _service.GetReservationByConfirmationNumber(confirmationNumber);
         }
 
         [HttpPost]
         public async Task<Reservation> InsertAsync([FromBody] Reservation model)
         {
+            // since price, actual check in and actual check out can't be set by the user, ensure they're set to default values
+            model.Price = 0;
+            model.ActualCheckIn = null;
+            model.ActualCheckOut = null;
+
             Guid guid = Guid.NewGuid();
             string confirmationNumber = Convert.ToBase64String(guid.ToByteArray());
             confirmationNumber = confirmationNumber.Replace("=", "")
