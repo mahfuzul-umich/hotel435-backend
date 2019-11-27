@@ -12,7 +12,6 @@ namespace hotel435.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string Id { get; set; }
-        [Required]
         public string ConfirmationNumber { get; set; }
         [Required]
         public string FirstName { get; set; }
