@@ -50,6 +50,7 @@ namespace hotel435
                     builder =>
                     {
                         builder
+                        .AllowAnyHeader()
                         .AllowAnyOrigin();
                     });
             });
