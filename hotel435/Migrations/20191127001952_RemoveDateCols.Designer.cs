@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using hotel435.Models;
 
 namespace hotel435.Migrations
 {
     [DbContext(typeof(Hotel435DbContext))]
-    partial class Hotel435DbContextModelSnapshot : ModelSnapshot
+    [Migration("20191127001952_RemoveDateCols")]
+    partial class RemoveDateCols
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,12 +26,6 @@ namespace hotel435.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime?>("ActualCheckIn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("ActualCheckOut")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("Address")
                         .IsRequired()

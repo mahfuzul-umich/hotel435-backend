@@ -33,6 +33,7 @@ namespace hotel435
             services.AddDbContext<Hotel435DbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Hotel435")));
             services.AddScoped<IReservationService, ReservationService>();
             services.AddScoped<IRoomService, RoomService>();
+            services.AddScoped<IManagementService, ManagementService>();
 
             services.AddAuthentication(options =>
             {

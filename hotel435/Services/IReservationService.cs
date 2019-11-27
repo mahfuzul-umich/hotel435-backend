@@ -8,5 +8,6 @@ namespace hotel435.Services
 {
     public interface IReservationService : IDbOperationsBase<Reservation>
     {
+        Reservation GetReservationByConfirmationNumber(string confirmationNumber);
     }
 }
