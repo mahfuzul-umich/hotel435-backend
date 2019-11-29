@@ -26,24 +26,28 @@ namespace hotel435.Controllers
         [HttpGet("reservations")]
         public List<ManagementReservationViewModel> GetManagementReservationViewModel()
         {
-            return _service.GetManagementReservationViewModel();
+            return _service.GetManagementReservationViewModel().OrderByDescending(r => r.Reservation.DateCreated).ToList();
         }
 
         [HttpPost("checkin/{reservationId}")]
-        public async Task<Reservation> SetReservationCheckInDate(string reservationId)
+        public async Task<ActionResult<Reservation>> SetReservationCheckInDateAsync(string reservationId)
         {
             var reservation = await _service.SetReservationCheckInDate(reservationId);
 
-            // return the modified reservation. if it's null, there was a validation error or no reservation was found
+            // if reservation is null, a validation error occurred or no reservation was found.
+            if (reservation == null) return BadRequest();
+
             return reservation;
         }
 
         [HttpPost("checkout/{reservationId}")]
-        public async Task<Reservation> SetReservationCheckOutDate(string reservationId)
+        public async Task<ActionResult<Reservation>> FinalizeReservationAsync(string reservationId)
         {
-            var reservation = await _service.SetReservationCheckOutDate(reservationId);
+            var reservation = await _service.FinalizeReservation(reservationId);
 
-            // return the modified reservation. if it's null, there was a validation error or no reservation was found
+            // if reservation is null, a validation error occurred or no reservation was found.
+            if (reservation == null) return BadRequest();
+
             return reservation;
         }
     }

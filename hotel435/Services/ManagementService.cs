@@ -2,6 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace hotel435.Services
@@ -30,6 +33,7 @@ namespace hotel435.Services
             return reservationsWithRooms;
         }
 
+        /// <inheritdoc />
         public async Task<Reservation> SetReservationCheckInDate(string reservationId)
         {
             var reservation = await _dbContext.Reservations.FindAsync(reservationId);
@@ -46,7 +50,8 @@ namespace hotel435.Services
             return null;
         }
 
-        public async Task<Reservation> SetReservationCheckOutDate(string reservationId)
+        /// <inheritdoc />
+        public async Task<Reservation> FinalizeReservation(string reservationId)
         {
             var reservation = await _dbContext.Reservations.FindAsync(reservationId);
             var room = await _dbContext.Rooms.FindAsync(reservation.RoomId);
@@ -63,6 +68,36 @@ namespace hotel435.Services
 
                 _dbContext.Reservations.Update(reservation);
                 await _dbContext.SaveChangesAsync();
+
+                // after updating the reservation model, send an email confirmation to user
+                var builder = new StringBuilder();
+
+                using var reader = System.IO.File.OpenText("EmailTemplate/template.html");
+                builder.Append(reader.ReadToEnd());
+
+                builder.Replace("{{name}}", $"{reservation.FirstName} {reservation.LastName}");
+                builder.Replace("{{checkIn}}", $"{reservation.ActualCheckIn.Value.ToString("dd MMMM yyyy hh:mm:ss tt")} - UTC");
+                builder.Replace("{{checkOut}}", $"{reservation.ActualCheckOut.Value.ToString("dd MMMM yyyy hh:mm:ss tt")} - UTC");
+                builder.Replace("{{amount}}", $"${reservation.Price}");
+                builder.Replace("{{confirmation}}", $"{reservation.ConfirmationNumber}");
+
+                var smtpClient = new SmtpClient
+                {
+                    Host = "smtp.gmail.com",
+                    Port = 587,
+                    EnableSsl = true,
+                    Credentials = new NetworkCredential("cis435hotel435@gmail.com", "Cis435Hotel435!")
+                };
+
+                using (var message = new MailMessage("cis435hotel435@gmail.com", $"{reservation.Email}")
+                {
+                    Subject = "Hotel435 Confirmation",
+                    Body = builder.ToString(),
+                    IsBodyHtml = true
+                })
+                {
+                    await smtpClient.SendMailAsync(message);
+                }
                 return reservation;
             }
 

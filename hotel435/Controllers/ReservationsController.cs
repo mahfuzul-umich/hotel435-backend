@@ -39,6 +39,8 @@ namespace hotel435.Controllers
             model.Price = 0;
             model.ActualCheckIn = null;
             model.ActualCheckOut = null;
+            model.CheckIn = model.CheckIn.ToUniversalTime();
+            model.CheckOut = model.CheckOut.ToUniversalTime();
 
             Guid guid = Guid.NewGuid();
             string confirmationNumber = Convert.ToBase64String(guid.ToByteArray());
