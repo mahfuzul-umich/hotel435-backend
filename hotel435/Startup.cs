@@ -42,7 +42,7 @@ namespace hotel435
             }).AddJwtBearer(options =>
             {
                 options.Authority = "https://hotel435.auth0.com/";
-                options.Audience = "https://hotel435.azurewebsites.net";
+                options.Audience = Configuration["Audience"];
             });
 
             services.AddCors(options =>
