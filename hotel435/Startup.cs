@@ -34,6 +34,7 @@ namespace hotel435
             services.AddScoped<IReservationService, ReservationService>();
             services.AddScoped<IRoomService, RoomService>();
             services.AddScoped<IManagementService, ManagementService>();
+            services.AddScoped<IMailService, MailService>();
 
             services.AddAuthentication(options =>
             {

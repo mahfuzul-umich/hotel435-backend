@@ -17,10 +17,12 @@ namespace hotel435.Controllers
     public class ManagementController : Controller
     {
         private readonly IManagementService _service;
+        private readonly IMailService _mailService;
 
-        public ManagementController(IManagementService service)
+        public ManagementController(IManagementService service, IMailService mailService)
         {
             _service = service;
+            _mailService = mailService;
         }
 
         [HttpGet("reservations")]
@@ -43,7 +45,7 @@ namespace hotel435.Controllers
         [HttpPost("checkout/{reservationId}")]
         public async Task<ActionResult<Reservation>> FinalizeReservationAsync(string reservationId)
         {
-            var reservation = await _service.FinalizeReservation(reservationId);
+            var reservation = await _mailService.SendConfirmationEmail(reservationId);
 
             // if reservation is null, a validation error occurred or no reservation was found.
             if (reservation == null) return BadRequest();

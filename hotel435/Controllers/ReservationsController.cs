@@ -14,10 +14,12 @@ namespace hotel435.Controllers
     public class ReservationsController : ControllerBase
     {
         private readonly IReservationService _service;
+        private readonly IMailService _mailService;
 
-        public ReservationsController(IReservationService service)
+        public ReservationsController(IReservationService service, IMailService mailService)
         {
             _service = service;
+            _mailService = mailService;
         }
 
         [HttpGet]
@@ -48,7 +50,14 @@ namespace hotel435.Controllers
                                                    .Replace("+", "")
                                                    .Replace("/", "");
             model.ConfirmationNumber = confirmationNumber;
-            return await _service.InsertAsync(model);
+            var reservation = await _service.InsertAsync(model);
+
+            if (reservation != null)
+            {
+                await _mailService.SendConfirmationEmail(model.Id);
+            }
+
+            return reservation;
         }
 
         [HttpDelete("{id}")]

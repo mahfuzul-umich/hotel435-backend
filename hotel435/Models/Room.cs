@@ -17,6 +17,5 @@ namespace hotel435.Models
         [Required]
         public int GuestsAllowed { get; set; }
 
-        //NOTE: Possible property to house Reservation info?
     }
 }
