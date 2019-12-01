@@ -12,10 +12,12 @@ namespace hotel435.Services
     public class ManagementService : IManagementService
     {
         private readonly Hotel435DbContext _dbContext;
+        private readonly IMailService _mailService;
 
-        public ManagementService(Hotel435DbContext dbContext)
+        public ManagementService(Hotel435DbContext dbContext, IMailService mailService)
         {
             _dbContext = dbContext;
+            _mailService = mailService;
         }
 
         public List<ManagementReservationViewModel> GetManagementReservationViewModel()
@@ -66,39 +68,13 @@ namespace hotel435.Services
                 if (time.TotalDays > 1.0) price = time.TotalDays * price; //if more than one day has passed, calculate new price
                 reservation.Price = (decimal) price;
 
-                _dbContext.Reservations.Update(reservation);
+                var updatedReservation = _dbContext.Reservations.Update(reservation);
                 await _dbContext.SaveChangesAsync();
 
                 // after updating the reservation model, send an email confirmation to user
-                var builder = new StringBuilder();
+                await _mailService.SendSummaryEmailAsync(reservation);
 
-                using var reader = System.IO.File.OpenText("EmailTemplate/template.html");
-                builder.Append(reader.ReadToEnd());
-
-                builder.Replace("{{name}}", $"{reservation.FirstName} {reservation.LastName}");
-                builder.Replace("{{checkIn}}", $"{reservation.ActualCheckIn.Value.ToString("dd MMMM yyyy hh:mm:ss tt")} - UTC");
-                builder.Replace("{{checkOut}}", $"{reservation.ActualCheckOut.Value.ToString("dd MMMM yyyy hh:mm:ss tt")} - UTC");
-                builder.Replace("{{amount}}", $"${reservation.Price}");
-                builder.Replace("{{confirmation}}", $"{reservation.ConfirmationNumber}");
-
-                var smtpClient = new SmtpClient
-                {
-                    Host = "smtp.gmail.com",
-                    Port = 587,
-                    EnableSsl = true,
-                    Credentials = new NetworkCredential("cis435hotel435@gmail.com", "Cis435Hotel435!")
-                };
-
-                using (var message = new MailMessage("cis435hotel435@gmail.com", $"{reservation.Email}")
-                {
-                    Subject = "Hotel435 Confirmation",
-                    Body = builder.ToString(),
-                    IsBodyHtml = true
-                })
-                {
-                    await smtpClient.SendMailAsync(message);
-                }
-                return reservation;
+                return updatedReservation.Entity;
             }
 
             return null;
