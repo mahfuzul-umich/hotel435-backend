@@ -24,12 +24,6 @@ namespace hotel435.Controllers
             _mailService = mailService;
         }
 
-        [HttpGet]
-        public async Task<List<Reservation>> GetAllAsync()
-        {
-            return await _service.GetAllAsync();
-        }
-
         [HttpGet("{confirmationNumber}")]
         public Reservation GetByConfirmationNumber(string confirmationNumber)
         {
