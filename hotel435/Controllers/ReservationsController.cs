@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,6 +23,13 @@ namespace hotel435.Controllers
             _service = service;
             _roomService = roomService;
             _mailService = mailService;
+        }
+
+        [HttpGet]
+        public async Task<IEnumerable> GetAllAsync()
+        {
+            var reservations = await _service.GetAllAsync();
+            return reservations.Select(r => new { r.CheckIn, r.CheckOut, r.RoomId }).ToList();
         }
 
         [HttpGet("{confirmationNumber}")]
