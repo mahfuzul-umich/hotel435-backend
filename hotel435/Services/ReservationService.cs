@@ -16,5 +16,11 @@ namespace hotel435.Services
         {
             return _dbContext.Reservations.First(r => r.ConfirmationNumber == confirmationNumber);
         }
+
+        public async Task RemoveReservationByConfirmationNumber(string confirmationNumber)
+        {
+            _dbContext.Reservations.Remove(GetReservationByConfirmationNumber(confirmationNumber));
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

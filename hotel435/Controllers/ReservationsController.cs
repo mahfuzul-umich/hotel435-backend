@@ -51,10 +51,10 @@ namespace hotel435.Controllers
             return await _service.InsertAsync(model);
         }
 
-        [HttpDelete("{id}")]
-        public async Task DeleteAsync(string id)
+        [HttpDelete("{confirmationNumber}")]
+        public async Task RemoveByConfirmationNumberAsync(string confirmationNumber)
         {
-            await _service.DeleteAsync(id);
+            await _service.RemoveReservationByConfirmationNumber(confirmationNumber);
         }
     }
 }
