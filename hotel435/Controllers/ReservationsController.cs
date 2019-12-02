@@ -63,9 +63,16 @@ namespace hotel435.Controllers
         }
 
         [HttpDelete("{confirmationNumber}")]
-        public async Task RemoveByConfirmationNumberAsync(string confirmationNumber)
+        public async Task<ActionResult> RemoveByConfirmationNumberAsync(string confirmationNumber)
         {
-            await _service.RemoveReservationByConfirmationNumber(confirmationNumber);
+            var reservation = _service.GetReservationByConfirmationNumber(confirmationNumber);
+            if (reservation.ActualCheckIn == null)
+            {
+                await _service.RemoveReservationByConfirmationNumber(confirmationNumber);
+                return NoContent();
+            }
+
+            return BadRequest();
         }
     }
 }
